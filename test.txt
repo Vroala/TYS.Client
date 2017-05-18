@@ -1,1 +1,1 @@
-﻿TEST용 txt입니다.
+﻿Commit용 TEST 텍스트 파일 입니다.
