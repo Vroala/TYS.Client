@@ -1,26 +1,42 @@
 # -*- coding: utf-8 -*-
 
-from socket import *
+import socket, threading, datetime
 
-HOST = '127.0.0.1'
-PORT = 17517
+th = []
+
+HOST = 'localhost'	#호스트 주소
+PORT = 50000		#포트 주소
 ADDR = (HOST, PORT)
 
-serSocket = socket(AF_INET, SOCK_STREAM)
-serSocket.connect(ADDR)
+def listen(s):
+	global text
 
-while True:
-	data = input('> ')
+	while 1:
+		read = s.recv(1024)
 
-	if not data :
-		break
+		if read == '-1':
+			exit(0)
 
-	serSocket.send(data.encode())
-	data = serSocket.recv(1024)
+		print(data.decode(), '\n')
 
-	if not data:
-		break
+		data = input('메세지: ')
 
-	print('Received', data.decode())
+		if data == '-1':
+			s.sendall('-1')
 
-serSocket.close()
+		s.sendall(data.encode())
+
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s.connect(ADDR)
+
+try:
+	l = threading.Thread(target=listen, args=(s,))
+	th.append(l)
+	l.start()
+
+except:
+	pass
+	exit(0)
+
+for t in th:
+	t.join()
