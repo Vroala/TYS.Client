@@ -17,14 +17,8 @@ def listen(s):
 		if read == '-1':
 			exit(0)
 
-		print(data.decode(), '\n')
+		print(read.decode(), '\n')
 
-		data = input('메세지: ')
-
-		if data == '-1':
-			s.sendall('-1')
-
-		s.sendall(data.encode())
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.connect(ADDR)
