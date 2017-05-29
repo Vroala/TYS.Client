@@ -18,31 +18,16 @@ class MyForm(QtWidgets.QDialog, Ui_Dialog):
 		QtWidgets.QDialog.__init__(self)
 		self.setupUi(self)
 
-		#read = s.recv(1024)
-
-		#if read == '-1':
-		#	exit(0)
-
-		#self.textEdit.append(read.decode())
-
 		self.pushButton.clicked.connect(self.sendClickSlot)
 
 	def sendClickSlot(self):
 		#LineText 값을 가져오는 함수
 		sendMessage = '%s' % self.lineEdit.text()
 		s.send(sendMessage.encode())
+		self.lineEdit.setText('')
 
-if __name__ == "__main__":
-
-	l = threading.Thread()
-	th.append(l)
-	l.start()
-
-	try:
-		app = QtWidgets.QApplication(sys.argv)
-		myapp = MyForm()
-		myapp.show()
-
+def listen(s):
+	while 1:
 		read = s.recv(1024)
 
 		if read == '-1':
@@ -50,12 +35,22 @@ if __name__ == "__main__":
 
 		myapp.textEdit.append(read.decode())
 
+if __name__ == "__main__":
+
+	try:
+		app = QtWidgets.QApplication(sys.argv)
+		myapp = MyForm()
+
+		l = threading.Thread(target=listen, args=(s, ))
+		th.append(l)
+		l.start()
+
+		myapp.show()
 		sys.exit(app.exec_())
 
 	except:
-		print('exit')
 		pass
-		exit(0)
+		s.close()
 
-for t in th:
-	t.join()
+	for t in th:
+		t.join()

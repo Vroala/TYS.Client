@@ -7,7 +7,7 @@ count = 0	#클라이언트 번호 매기기
 th = []
 conns = []
 
-HOST = 'localhost'	#호스트 주소
+HOST = ''	#호스트 주소
 PORT = 50000		#포트 주소
 ADDR = (HOST, PORT)
 
@@ -20,19 +20,21 @@ def to_client(conn, addr, count):
 		conns[i].send(sendMessage.encode())
 
 	print("시스템메세지 : %s에서, 유저 %d님이 접속하였습니다." % (addr[0], cnt))
-	sendMessage = "시스템메세지 : 서버에 접속하였습니다. \n당신은 유저 %d입니다." % (cnt)
+	sendMessage = "시스템메세지 : 서버에 접속하였습니다. \n시스템메세지 : 당신은 유저 %d입니다.\n" % (cnt)
 	conn.send(sendMessage.encode())
 
 	try:
 		while 1:
 			read = conn.recv(1024)	#메세지 받기
 
+			read = read.decode()
+
 			if read == '-1':
 				conn.send('-1')
 				exit(0)
 
-			read = '유저 %d번님 : %s' % (cnt, read.decode())
-			print(read)
+			read = '유저 %d번님 : %s' % (cnt, read)
+			print('[%s] %s ' % (nowDatetime, read))
 
 			for i in range(len(conns)):		#전체 유저를 i에 각각 저장
 				conns[i].send(read.encode())		#유저 전체에게 메세지 보내기
