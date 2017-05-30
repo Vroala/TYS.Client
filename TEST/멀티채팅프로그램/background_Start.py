@@ -7,7 +7,7 @@ import socket, threading, datetime
 
 th = []
 
-HOST = 'localhost'	#호스트 주소
+HOST = '10.20.6.40'	#호스트 주소
 PORT = 50000		#포트 주소
 ADDR = (HOST, PORT)
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -21,7 +21,6 @@ class MyForm(QtWidgets.QDialog, Ui_Dialog):
 		self.pushButton.clicked.connect(self.sendClickSlot)
 
 	def sendClickSlot(self):
-		#LineText 값을 가져오는 함수
 		sendMessage = '%s' % self.lineEdit.text()
 		s.send(sendMessage.encode())
 		self.lineEdit.setText('')
@@ -34,6 +33,9 @@ def listen(s):
 			exit(0)
 
 		myapp.textEdit.append(read.decode())
+		c = myapp.textEdit.textCursor();
+		c.movePosition(QtGui.QTextCursor.End);
+		myapp.textEdit.setTextCursor(c);
 
 if __name__ == "__main__":
 
