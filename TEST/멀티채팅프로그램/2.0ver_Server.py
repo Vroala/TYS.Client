@@ -8,7 +8,7 @@ th = []
 conns = []
 
 HOST = ''	#호스트 주소
-PORT = 50000		#포트 주소
+PORT = 20000		#포트 주소
 ADDR = (HOST, PORT)
 
 def to_client(conn, addr, count):
@@ -16,11 +16,11 @@ def to_client(conn, addr, count):
 	global conns
 
 	for i in range(len(conns)):
-		sendMessage = "시스템메세지 : %s에서, 유저 %d님이 접속하였습니다.\n" % (addr[0], cnt)
+		sendMessage = "시스템메세지 : %s에서, 유저 %d님이 접속하였습니다." % (addr[0], cnt)
 		conns[i].send(sendMessage.encode())
 
 	print("시스템메세지 : %s에서, 유저 %d님이 접속하였습니다." % (addr[0], cnt))
-	sendMessage = "시스템메세지 : 서버에 접속하였습니다. \n시스템메세지 : 당신은 유저 %d입니다.\n" % (cnt)
+	sendMessage = "시스템메세지 : 서버에 접속하였습니다. \n시스템메세지 : 당신은 유저 %d입니다." % (cnt)
 	conn.send(sendMessage.encode())
 
 	try:

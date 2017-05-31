@@ -3,7 +3,7 @@
 from socket import *
 
 HOST = ''
-PORT = 17517
+PORT = 20000
 ADDR = (HOST, PORT)
 
 serSocket = socket(AF_INET, SOCK_STREAM)

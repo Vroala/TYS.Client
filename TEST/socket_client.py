@@ -2,8 +2,8 @@
 
 from socket import *
 
-HOST = '127.0.0.1'
-PORT = 17517
+HOST = '108.61.180.119'
+PORT = 20000
 ADDR = (HOST, PORT)
 
 serSocket = socket(AF_INET, SOCK_STREAM)
