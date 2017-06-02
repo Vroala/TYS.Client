@@ -32,7 +32,7 @@ def to_client(conn, addr):
 
 	#본문 시작
 	for i in range(len(conns)):
-		sendMessage = "시스템메세지 : %s에서, %s님이 접속하였습니다." % (addr[0], user)
+		sendMessage = "시스템메세지 : %s에서, %s님이 접속하였습니다.\n" % (addr[0], user)
 		conns[i].send(sendMessage.encode())
 
 	print("시스템메세지 : %s에서, %s님이 접속하였습니다." % (addr[0], user))
