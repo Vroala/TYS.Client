@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 from Form_1 import *
@@ -33,15 +35,17 @@ class MyForm_1(QtWidgets.QDialog, Ui_Form):
 
 	def sendClickSlot(self):
 		global flag
-		sendMessage = ''
 
-		while len(sendMessage) > 6 :
-			sendMessage = '%s' % self.lineEdit.text()
-			s.send(sendMessage.encode())
-			QtWidgets.QMessageBox.about(None, '유저 이름 오류!', '유저 이름은 1~6자리를 입력해주세요!!')
+		sendMessage = '%s' % self.lineEdit.text()
+		print(len(sendMessage.encode('cp949')))
 		
-		flag = 1
-		myapp1.close()
+		if len(sendMessage.encode('cp949')) > 0 and len(sendMessage.encode('cp949')) < 17:
+			s.send(sendMessage.encode())
+			flag = 1
+			myapp1.close()
+		else:
+			msg = QtWidgets.QMessageBox.warning(self, '유저 이름 오류!', '한글 이름은 8자리\n영어 이름은 16자리 까지 가능합니다.')
+
 
 class MyForm_2(QtWidgets.QDialog, Ui_Dialog):
 	def __init__(self):

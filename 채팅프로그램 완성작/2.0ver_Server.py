@@ -11,32 +11,22 @@ HOST = ''	#호스트 주소
 PORT = 20000		#포트 주소
 ADDR = (HOST, PORT)
 
-def notBlank(name):
-	count = 1
-	for c in name:
-		if c != ' ':
-			count = 0
-
-	return count
-
 def to_client(conn, addr):
 	user = ' '
 
 	global conns
 
 	#유저명
-	while notBlank(user) == 1:
-		user = conn.recv(1024).decode()
-
+	user = conn.recv(1024).decode()
 	users.append(user)
 
 	#본문 시작
 	for i in range(len(conns)):
-		sendMessage = "시스템메세지 : %s에서, %s님이 접속하였습니다.\n" % (addr[0], user)
+		sendMessage = "시스템메세지 : %s에서, %s님이 접속하였습니다." % (addr[0], user)
 		conns[i].send(sendMessage.encode())
 
 	print("시스템메세지 : %s에서, %s님이 접속하였습니다." % (addr[0], user))
-	sendMessage = "시스템메세지 : 서버에 접속하였습니다. \n시스템메세지 : 당신은 %s님 입니다." % (user)
+	sendMessage = "시스템메세지 : 서버에 접속하였습니다. \n시스템메세지 : 당신은 %s님 입니다.\n" % (user)
 	conn.send(sendMessage.encode())
 
 	try:
