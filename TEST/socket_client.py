@@ -1,11 +1,26 @@
 # -*- coding: utf-8 -*-
 
-import socket
+from socket import *
 
-HOST = '127.0.0.1'
-PORT = 50007
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-s.connect((HOST, PORT))
-s.send(b'Hello, Python')
-data = s.recv(1024)
-print('Received', repr(data))
+HOST = '108.61.180.119'
+PORT = 20000
+ADDR = (HOST, PORT)
+
+serSocket = socket(AF_INET, SOCK_STREAM)
+serSocket.connect(ADDR)
+
+while True:
+	data = input('> ')
+
+	if not data :
+		break
+
+	serSocket.send(data.encode())
+	data = serSocket.recv(1024)
+
+	if not data:
+		break
+
+	print('Received', data.decode())
+
+serSocket.close()

@@ -1,15 +1,26 @@
 # -*- coding: utf-8 -*-
 
-import socket
+from socket import *
 
 HOST = ''
-PORT = 50007
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-s.bind((HOST, PORT))
-s.listen(1)
-conn, addr = s.accept()
-print('Connected by', addr)
+PORT = 20000
+ADDR = (HOST, PORT)
+
+serSocket = socket(AF_INET, SOCK_STREAM)
+serSocket.bind(ADDR)
+serSocket.listen(1)
+
 while True:
-	data = conn.recv(1024)
-	conn.send(data)
-conn.close()
+	print ('Waiting For Connection...')
+	cliConn, cliAddr = serSocket.accept()
+	print('Connected by', cliAddr)
+
+	while True:
+		data = cliConn.recv(1024)
+		if not data:
+			break
+		cliConn.send(data)
+
+	cliConn.close()
+
+serSocket.close()
